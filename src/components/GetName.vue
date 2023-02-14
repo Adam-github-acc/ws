@@ -4,6 +4,7 @@ export default {
     return {
       randomName: '',
       error: false,
+      user: {},
     };
   },
   methods: {
@@ -12,10 +13,12 @@ export default {
         this.error = false;
         const res = await fetch('https://randomuser.me/api/');
         const json = await res.json();
-        const name = json.results[0].name.first;
-        if (name[0].toLowerCase() === letter.toLowerCase())
+        const userObject = json.results[0];
+        const name = userObject.name.first;
+        if (name[0].toLowerCase() === letter.toLowerCase()) {
           this.randomName = name;
-        else this.getRandomName(letter);
+          this.user = userObject;
+        } else this.getRandomName(letter);
       } catch (error) {
         console.log(error);
         this.error = true;
